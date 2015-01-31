@@ -1,0 +1,42 @@
+#! /usr/bin/env ruby
+# -*- coding: UTF-8 -*-
+
+# clean interrupt
+trap("INT") { abort }
+
+require "trollop"
+require "yop"
+
+opts = Trollop.options do
+  version "yop #{Yop.version}"
+  banner <<-EOS
+Yop bootstraps your projects with predefined templates.
+
+Usage:
+    yop [options] [<template> <directory>]
+
+  * <template> is a template name. Use --templates to list all of them
+  * <directory> is any directory. It’ll be created if it doesn’t exist
+
+where [options] are:
+EOS
+
+  opt :templates, "List all available templates", :default => false
+end
+
+if opts[:templates]
+  puts "Templates:"
+  Yop.templates.each do |t|
+    puts "* #{t}"
+  end
+  exit 0
+end
+
+if ARGV.length != 2
+  puts "Error: Unrecognized arguments. Use -h or --help to see the help."
+  exit 1
+end
+
+template, directory = ARGV
+
+Yop.boostrap(template, directory)

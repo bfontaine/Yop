@@ -1,0 +1,68 @@
+# Largely copied from Homebrew's rubocop.yml
+
+# 1.8-style hash keys
+Style/HashSyntax:
+    EnforcedStyle: hash_rockets
+
+# ruby style guide favorite
+Style/StringLiterals:
+    EnforcedStyle: double_quotes
+
+# consistency with above
+Style/StringLiteralsInInterpolation:
+    EnforcedStyle: double_quotes
+
+# no metrics
+Metrics/AbcSize:
+    Enabled: false
+Metrics/CyclomaticComplexity:
+    Enabled: false
+Metrics/MethodLength:
+    Enabled: false
+Metrics/ClassLength:
+    Enabled: false
+Metrics/PerceivedComplexity:
+    Enabled: false
+
+# favor parens-less DSL-style arguments
+Lint/AmbiguousOperator:
+    Enabled: false
+Lint/AmbiguousRegexpLiteral:
+    Enabled: false
+Lint/AssignmentInCondition:
+    Enabled: false
+Lint/ParenthesesAsGroupedExpression:
+    Enabled: false
+
+# compact style
+Style/EmptyLineBetweenDefs:
+    AllowAdjacentOneLineDefs: true
+
+# port numbers and such tech stuff
+Style/NumericLiterals:
+    Enabled: false
+
+# paths abound, easy escape
+Style/RegexpLiteral:
+    MaxSlashes: 0
+
+# consistency and readability when faced with string interpolation
+Style/PercentLiteralDelimiters:
+    PreferredDelimiters:
+        '%':  '()'
+        '%i': '()'
+        '%q': '()'
+        '%Q': '()'
+        '%r': '{}'
+        '%s': '()'
+        '%w': '[]'
+        '%W': '[]'
+        '%x': '()'
+
+# comma on last element is editor friendly
+Style/TrailingComma:
+    EnforcedStyleForMultiline: comma
+
+# not a problem for typical shell users
+Style/SpecialGlobalVars:
+    Enabled: false

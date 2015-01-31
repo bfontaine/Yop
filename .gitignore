@@ -1,0 +1,7 @@
+*~
+.*.sw*
+*.gem
+/coverage
+/.yardoc
+/doc
+.DS_Store
