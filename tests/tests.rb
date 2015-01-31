@@ -7,14 +7,14 @@ Coveralls.wear!
 require "test/unit"
 require "simplecov"
 
-test_dir = File.expand_path( File.dirname(__FILE__) )
+test_dir = File.expand_path(File.dirname(__FILE__))
 
 SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 SimpleCov.start { add_filter "/tests/" }
 
 require "yop"
 
-for t in Dir[File.join( test_dir,  "*_tests.rb" )]
+for t in Dir[File.join(test_dir,  "*_tests.rb")]
   require t
 end
 

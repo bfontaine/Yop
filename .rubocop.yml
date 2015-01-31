@@ -1,4 +1,4 @@
-# Largely copied from Homebrew's rubocop.yml
+# Largely copied from Homebrew"s rubocop.yml
 
 # ruby style guide favorite
 Style/StringLiterals:
@@ -49,15 +49,15 @@ Style/RegexpLiteral:
 # consistency and readability when faced with string interpolation
 Style/PercentLiteralDelimiters:
     PreferredDelimiters:
-        '%':  '()'
-        '%i': '()'
-        '%q': '()'
-        '%Q': '()'
-        '%r': '{}'
-        '%s': '()'
-        '%w': '[]'
-        '%W': '[]'
-        '%x': '()'
+        "%":  "()"
+        "%i": "()"
+        "%q": "()"
+        "%Q": "()"
+        "%r": "{}"
+        "%s": "()"
+        "%w": "[]"
+        "%W": "[]"
+        "%x": "()"
 
 # comma on last element is editor friendly
 Style/TrailingComma:
@@ -66,3 +66,8 @@ Style/TrailingComma:
 # not a problem for typical shell users
 Style/SpecialGlobalVars:
     Enabled: false
+
+# don"t check test files
+AllCops:
+  Exclude:
+    - "tests/**/*"
