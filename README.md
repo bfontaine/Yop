@@ -1,8 +1,8 @@
 # Yop
 
-[![Build Status](https://img.shields.io/travis/bfontaine/yop.svg)](https://travis-ci.org/bfontaine/yop)
+[![Build Status](https://img.shields.io/travis/bfontaine/Yop.svg)](https://travis-ci.org/bfontaine/Yop)
 [![Gem Version](https://img.shields.io/gem/v/yop.svg)](http://badge.fury.io/rb/yop)
-[![Coverage Status](https://img.shields.io/coveralls/bfontaine/yop.svg)](https://coveralls.io/r/bfontaine/yop)
+[![Coverage Status](https://img.shields.io/coveralls/bfontaine/Yop.svg)](https://coveralls.io/r/bfontaine/Yop)
 [![Inline docs](http://inch-ci.org/github/bfontaine/yop.svg?branch=master)](http://inch-ci.org/github/bfontaine/yop)
 
 Yop bootstraps your projects with custom templates.
