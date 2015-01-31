@@ -27,17 +27,16 @@ EOS
 end
 
 if opts[:templates]
+  require "pathname"
+
   puts "Templates:"
   Yop.templates.each do |t|
-    puts "* #{t}"
+    puts "* #{Pathname.new(t).basename}"
   end
   exit 0
 end
 
-if ARGV.length != 2
-  Trollop.educate
-  exit 1
-end
+Trollop.educate unless ARGV.length == 2
 
 template, directory = ARGV
 
