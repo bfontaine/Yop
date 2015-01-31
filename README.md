@@ -4,7 +4,6 @@
 [![Gem Version](https://img.shields.io/gem/v/yop.png)](http://badge.fury.io/rb/yop)
 [![Coverage Status](https://img.shields.io/coveralls/bfontaine/yop.svg)](https://coveralls.io/r/bfontaine/yop)
 [![Inline docs](http://inch-ci.org/github/bfontaine/yop.svg?branch=master)](http://inch-ci.org/github/bfontaine/yop)
-[![Dependency Status](https://img.shields.io/gemnasium/bfontaine/yop.svg)](https://gemnasium.com/bfontaine/yop)
 
 Yop bootstraps your projects with custom templates.
 
