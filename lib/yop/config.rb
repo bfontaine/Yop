@@ -6,19 +6,29 @@ require_relative "home"
 
 module Yop
   class << self
-    def config(key = nil, opts = {})
+    # Get the local Yop config. If no argument is given the whole config is
+    # returned. If one is given, the corresponding value is returned.
+    # @param key [Any] the key to lookup
+    # @return [Any] either the whole config or the value for `key`
+    def config(key = nil)
       read_config unless @conf
 
       if !key.nil?
         @conf[key]
       else
-        unless opts.empty?
-          @conf.update(opts)
-          save_config
-        end
         @conf
       end
     end
+
+    # Set variables in the local Yop config.
+    # @param opts [Hash] an hash which will be merged into the local config
+    # @return nil
+    def config!(opts = {})
+      @conf.update(opts)
+      save_config
+    end
+
+    private
 
     def read_config
       @conf = YAML.load_file(home("config.yml")) || {}

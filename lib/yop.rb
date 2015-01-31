@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 
+# Base module for Yop
 module Yop; end
 
 require_relative "yop/bootstrap"
