@@ -13,15 +13,15 @@ opts = Trollop.options do
 Yop bootstraps your projects with predefined templates.
 
 Usage:
-    yop [options] [<template> <directory>]
+    yop [options] <template> <directory>
 
   * <template> is a template name. Use --templates to list all of them
   * <directory> is any directory. It’ll be created if it doesn’t exist
 
-where [options] are:
+Options:
 EOS
 
-  opt :templates, "List all available templates", :default => false
+  opt :templates, "List all available templates", default: false
 end
 
 if opts[:templates]
@@ -33,7 +33,7 @@ if opts[:templates]
 end
 
 if ARGV.length != 2
-  puts "Error: Unrecognized arguments. Use -h or --help to see the help."
+  Trollop.educate
   exit 1
 end
 
