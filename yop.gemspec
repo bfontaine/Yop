@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.require_path  = "lib"
   s.executables  << "yop"
 
-  s.add_runtime_dependency "trollop",  "~> 2.0"
+  s.add_runtime_dependency "trollop",  "~> 2.1"
 
   s.add_development_dependency "simplecov", "~> 0.7"
   s.add_development_dependency "rake",      "~> 10.1"

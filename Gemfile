@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gem "coveralls", require: false
 gem "rubocop", require: false
 
-gem "trollop",  "~> 2.0"
+gem "trollop",  "~> 2.1"
 
 group :test do
   gem "simplecov", require: false
