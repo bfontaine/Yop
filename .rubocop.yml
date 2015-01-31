@@ -1,9 +1,5 @@
 # Largely copied from Homebrew's rubocop.yml
 
-# 1.8-style hash keys
-Style/HashSyntax:
-    EnforcedStyle: hash_rockets
-
 # ruby style guide favorite
 Style/StringLiterals:
     EnforcedStyle: double_quotes
@@ -22,6 +18,10 @@ Metrics/MethodLength:
 Metrics/ClassLength:
     Enabled: false
 Metrics/PerceivedComplexity:
+    Enabled: false
+
+# This is enforced by Inch
+Style/Documentation:
     Enabled: false
 
 # favor parens-less DSL-style arguments

@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-module Yop;end
+module Yop; end
 
 require_relative "yop/version"
 require_relative "yop/templates"

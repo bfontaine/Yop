@@ -1,7 +1,7 @@
 require "inch"
 require "rubocop/rake_task"
 
-task :default => [ :rubocop, :test ]
+task default: [:rubocop, :test]
 
 task :test do
   ruby "-Ilib tests/tests.rb"
