@@ -21,7 +21,7 @@ module Yop
     end
 
     def read_config
-      @conf = YAML.load_file home("config.yml")
+      @conf = YAML.load_file(home("config.yml")) || {}
     end
 
     def save_config

@@ -8,17 +8,21 @@ require_relative "exceptions"
 
 module Yop
   class Template
-    extend FileUtils::Verbose
+    include FileUtils
 
     def initialize(base_directory, vars = {})
       @base = base_directory
       @vars = vars
     end
 
+    def ignore_extension?(path)
+      %w[.swp .swo .pyc .class].any? { |e| path.end_with?(e) }
+    end
+
     def skip?(path)
-      [/^\.git$/, /.+~$/, /^\..+\.sw.$/].any? do |reg|
-        path =~ reg
-      end
+      return true if ignore_extension? path
+
+      [/\.git/, /.~$/, /__pycache__/].any? { |reg| path =~ reg }
     end
 
     def replace_vars(source)
@@ -35,11 +39,12 @@ module Yop
       mkdir_p directory
 
       # get relative paths
-      sources = cd(@base) { Dir["**/*", "**/.*"] }
+      sources = []
+      cd(@base) { sources = Dir["**/*", "**/.*"] }
 
       cd directory do
         sources.each do |path|
-          next unless skip? path
+          next if skip? path
 
           source = "#{@base}/#{path}"
 
@@ -68,7 +73,7 @@ module Yop
 
     def get_template(name)
       dirs = Dir["#{Yop.home("templates")}/#{name}"]
-      fail NonExistentTemplate(name) if dirs.empty
+      fail NonExistentTemplate, name if dirs.empty?
       Template.new(dirs.first, config(:vars) || {})
     end
   end

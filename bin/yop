@@ -7,6 +7,8 @@ trap("INT") { abort }
 require "trollop"
 require "yop"
 
+Yop.init
+
 opts = Trollop.options do
   version "yop #{Yop.version}"
   banner <<-EOS
@@ -39,4 +41,11 @@ end
 
 template, directory = ARGV
 
-Yop.boostrap(template, directory)
+puts "Applying template '#{template}' on #{directory}..."
+begin
+  Yop.bootstrap(template, directory)
+rescue NonExistentTemplate => e
+  puts "ERROR: The template '#{e}' doesn’t exist."
+  exit 1
+end
+puts "Done!"
