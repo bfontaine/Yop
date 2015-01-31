@@ -1,7 +1,7 @@
 # Yop
 
 [![Build Status](https://img.shields.io/travis/bfontaine/yop.svg)](https://travis-ci.org/bfontaine/yop)
-[![Gem Version](https://img.shields.io/gem/v/yop.png)](http://badge.fury.io/rb/yop)
+[![Gem Version](https://img.shields.io/gem/v/yop.svg)](http://badge.fury.io/rb/yop)
 [![Coverage Status](https://img.shields.io/coveralls/bfontaine/yop.svg)](https://coveralls.io/r/bfontaine/yop)
 [![Inline docs](http://inch-ci.org/github/bfontaine/yop.svg?branch=master)](http://inch-ci.org/github/bfontaine/yop)
 
