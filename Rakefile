@@ -12,4 +12,7 @@ task :doctest do
   Inch::CLI::Command::Suggest.new.run("--pedantic")
 end
 
-RuboCop::RakeTask.new
+desc "Run RuboCop on the lib & bin directories"
+RuboCop::RakeTask.new(:rubocop) do |task|
+  task.patterns = ["lib/**/*.rb", "bin/*"]
+end

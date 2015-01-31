@@ -66,8 +66,3 @@ Style/TrailingComma:
 # not a problem for typical shell users
 Style/SpecialGlobalVars:
     Enabled: false
-
-# don"t check test files
-AllCops:
-  Exclude:
-    - "tests/**/*"
