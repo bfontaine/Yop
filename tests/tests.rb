@@ -1,15 +1,16 @@
 #! /usr/bin/env ruby
 # -*- coding: UTF-8 -*-
 
-require "coveralls"
-Coveralls.wear!
-
 require "test/unit"
 require "simplecov"
 
 test_dir = File.expand_path(File.dirname(__FILE__))
 
-SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+if ENV["TRAVIS"]
+  require "coveralls"
+  Coveralls.wear!
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+end
 SimpleCov.start { add_filter "/tests/" }
 
 require "yop"
