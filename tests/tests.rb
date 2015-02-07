@@ -13,20 +13,8 @@ if ENV["TRAVIS"]
 end
 SimpleCov.start { add_filter "/tests/" }
 
-require "yop"
-
 for t in Dir[File.join(test_dir,  "*_tests.rb")]
   require t
-end
-
-class YopTests < Test::Unit::TestCase
-
-  # == #version == #
-
-  def test_version
-    assert(Yop.version =~ /^\d+\.\d+\.\d+/)
-  end
-
 end
 
 
