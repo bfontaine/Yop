@@ -74,13 +74,12 @@ module Yop
     private
 
     def ignore_extension?(path)
-      %w[.swp .swo .pyc .class].any? { |e| path.end_with?(e) }
+      %w[swp swo pyc class].any? { |e| path.end_with?(".#{e}") }
     end
 
     def skip?(path)
-      return true if ignore_extension? path
-
-      [/\.git/, /.~$/, /__pycache__/].any? { |reg| path =~ reg }
+      ignore_extension?(path) ||
+        [/\.git/, /.~$/, /__pycache__/].any? { |reg| path =~ reg }
     end
 
     def replace_vars(source)
