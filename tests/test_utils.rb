@@ -15,6 +15,13 @@ class Test::Unit::TestCase
     FileUtils.rm_rf @basepath
   end
 
+  # ls -ar
+  def ls_ar path
+    Dir["#{path}/**/*", "#{path}/**/.*"].reject do |d|
+      d =~ %r(/\.\.?$) && File.directory?(d)
+    end
+  end
+
   # proxy FileUtils methods by prepending a @basepath
   [:mkdir, :mkdir_p, :touch].each do |name|
     define_method(name) do |path|
