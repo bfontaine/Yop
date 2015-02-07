@@ -18,6 +18,7 @@ class Test::Unit::TestCase
   # ls -ar
   def ls_ar path
     Dir["#{path}/**/*", "#{path}/**/.*"].reject do |d|
+      # reject . & .. (for Ruby 1.9)
       d =~ %r(/\.\.?$) && File.directory?(d)
     end
   end

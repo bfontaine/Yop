@@ -87,4 +87,24 @@ class YopTemplatesTests < Test::Unit::TestCase
     assert_nothing_raised { t.apply dest }
     assert_equal [], ls_ar(dest)
   end
+
+  def test_apply_dirs_only
+    mkdir_p "templates/foo/bar"
+    t = Yop.get_template("foo")
+    mkdir_p "tmp/test-foo"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_true File.directory?("#{dest}/bar")
+  end
+
+  def test_apply_dirs_with_empty_file
+    mkdir_p "templates/foo/bar"
+    touch "templates/foo/barqux"
+    t = Yop.get_template("foo")
+    mkdir_p "tmp/test-foo"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_true File.directory?("#{dest}/bar")
+    assert_true File.file?("#{dest}/barqux")
+  end
 end
