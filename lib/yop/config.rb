@@ -28,6 +28,12 @@ module Yop
       save_config
     end
 
+    # Force-reload the config. This shouldn't be needed unless you know what
+    # you're doing (e.g. testing the module).
+    def reload!
+      read_config
+    end
+
     private
 
     def read_config
