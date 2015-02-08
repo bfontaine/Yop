@@ -29,14 +29,18 @@ module Yop
   class Template
     include FileUtils
 
+    # The UI used to get unknown variables
+    # @param value [Yop::UI]
+    # @return [Yop::UI]
     attr_writer :ui
 
     # Create a new template from a base directory
     # @param base_directory [String] a path to an existing directory which will
-    #                                be used as a source when this template
-    #                                will be applied
-    # @param vars [Hash]
-    # @param config [Hash]
+    #        be used as a source when this template will be applied
+    # @param vars [Hash] variables to use in this template. If a variable is
+    #        found in the template but isn't in the hash it'll be retrieved
+    #        from the template's ui (default is Yop::TerminalUI).
+    # @param config [Hash] additional configuration options
     def initialize(base_directory, vars = {}, config = {})
       @base = base_directory
       @vars = vars
@@ -60,7 +64,8 @@ module Yop
         sources.each do |path|
           next if skip? path
 
-          source = "#{@base}/#{replace_vars_in_path path}"
+          source = "#{@base}/#{path}"
+          path = replace_vars_in_path path
 
           if File.directory? source
             mkdir_p path
@@ -70,8 +75,8 @@ module Yop
               f.write(content)
             end
           else
-            puts "Warning: unsupported file: #{source}"
-            next
+            # fallback on cp
+            cp source, path
           end
           mirror_perms source, path
         end

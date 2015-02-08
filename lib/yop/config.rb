@@ -30,6 +30,7 @@ module Yop
 
     # Force-reload the config. This shouldn't be needed unless you know what
     # you're doing (e.g. testing the module).
+    # @return [Nil]
     def reload!
       read_config
     end

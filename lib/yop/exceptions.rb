@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 
+# Base exception for Yop-related ones
 class YopException < Exception; end
 
 # Raised when get_template fails to find a template
