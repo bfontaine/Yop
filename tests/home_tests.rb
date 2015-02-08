@@ -1,17 +1,9 @@
 # -*- coding: UTF-8 -*-
 
-require "test/unit"
 require "yop/home"
 require_relative "test_utils"
 
-class YopHomeTests < Test::Unit::TestCase
-  def setup
-    set_temporary_home
-  end
-
-  def teardown
-    unset_temporary_home
-  end
+class YopHomeTests < YopTestCase
 
   # == #home == #
 

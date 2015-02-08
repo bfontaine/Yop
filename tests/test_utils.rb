@@ -4,13 +4,13 @@ require "fileutils"
 require "tmpdir"
 require "yop"
 
-class Test::Unit::TestCase
-  def set_temporary_home
+class YopTestCase < Test::Unit::TestCase
+  def setup
     @old_basepath = Yop.basepath
     @basepath = Yop.basepath = "#{Dir.mktmpdir}/.yop"
   end
 
-  def unset_temporary_home
+  def teardown
     Yop.basepath = @old_basepath
     FileUtils.rm_rf @basepath
   end

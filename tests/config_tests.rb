@@ -1,18 +1,13 @@
 # -*- coding: UTF-8 -*-
 
-require "test/unit"
 require "yop/config"
 require_relative "test_utils"
 
-class YopConfigTests < Test::Unit::TestCase
+class YopConfigTests < YopTestCase
   def setup
-    set_temporary_home
+    super
     Yop.init
     Yop.reload!
-  end
-
-  def teardown
-    unset_temporary_home
   end
 
   # == #config == #

@@ -1,18 +1,13 @@
 # -*- coding: UTF-8 -*-
 
-require "test/unit"
 require "yop/templates"
 require "yop/exceptions"
 require_relative "test_utils"
 
-class YopTemplatesTests < Test::Unit::TestCase
+class YopTemplatesTests < YopTestCase
   def setup
-    set_temporary_home
+    super
     Yop.init
-  end
-
-  def teardown
-    unset_temporary_home
   end
 
   # == #templates == #

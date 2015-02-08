@@ -1,18 +1,9 @@
 # -*- coding: UTF-8 -*-
 
-require "test/unit"
 require "yop/bootstrap"
 require_relative "test_utils"
 
-class YopBootstrapTests < Test::Unit::TestCase
-  def setup
-    set_temporary_home
-    Yop.init
-  end
-
-  def teardown
-    unset_temporary_home
-  end
+class YopBootstrapTests < YopTestCase
 
   # == #bootstrap == #
 
