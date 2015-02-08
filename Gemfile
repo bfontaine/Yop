@@ -11,4 +11,5 @@ group :test do
   gem "rake"
   gem "test-unit"
   gem "fakeweb"
+  gem "rubygems-tasks"
 end

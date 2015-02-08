@@ -1,5 +1,8 @@
 require "inch"
 require "rubocop/rake_task"
+require 'rubygems/tasks'
+
+Gem::Tasks.new
 
 task default: [:rubocop, :test]
 task style: [:rubocop, :doctest]
