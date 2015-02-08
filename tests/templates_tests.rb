@@ -102,4 +102,38 @@ class YopTemplatesTests < YopTestCase
     assert_true File.directory?("#{dest}/bar")
     assert_true File.file?("#{dest}/barqux")
   end
+
+  def test_apply_dir_with_variable_placeholder_string
+    mkdir_p "templates/foo/{(SOME_VAR)}"
+    t = Yop.get_template("foo")
+    t["SOME_VAR"] = "barqux"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_true File.directory?("#{dest}/barqux")
+    assert_false File.directory?("#{dest}/{(SOME_VAR)}")
+  end
+
+  def test_apply_dir_with_variable_placeholder_symbol
+    mkdir_p "templates/foo/{(SOME_VAR)}"
+    t = Yop.get_template("foo")
+    t[:SOME_VAR] = "barqux"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_true File.directory?("#{dest}/barqux")
+    assert_false File.directory?("#{dest}/{(SOME_VAR)}")
+  end
+
+  def test_apply_dir_with_variable_placeholder_symbol_from_config
+    capture_output!
+    set_input "not-barqux"
+
+    mkdir_p "templates/foo/{(SOME_VAR)}"
+    Yop.config! :vars => {:SOME_VAR => "barqux"}
+    t = Yop.get_template("foo")
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_true File.directory?("#{dest}/barqux")
+    assert_false File.directory?("#{dest}/not-barqux")
+    assert_false File.directory?("#{dest}/{(SOME_VAR)}")
+  end
 end

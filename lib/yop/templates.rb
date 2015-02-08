@@ -83,6 +83,14 @@ module Yop
       end
     end
 
+    # Shortcut to add a template variable
+    # @param name [Any] the variable's name
+    # @param value [Any] the variable's value
+    # @return [Any] the provided value
+    def []=(name, value)
+      @vars[name.to_s] = value
+    end
+
     private
 
     # @param path [String]
