@@ -142,7 +142,7 @@ module Yop
     # @param source [String]
     # @param target [String]
     def mirror_perms(source, target)
-      mode = File.new(source).stat.mode
+      mode = File.new(source).lstat.mode
       File.chmod(mode, target)
     end
   end

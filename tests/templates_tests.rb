@@ -189,4 +189,6 @@ EOS
     assert_true File.file?("#{dest}/README")
     assert_equal expected, File.read("#{dest}/README")
   end
+
+  # TODO test {symlink, dir, file} permissions
 end
