@@ -139,10 +139,23 @@ module Yop
       @var_pattern = /#{opening}([_A-Z][_A-Z0-9]*)#{closing}/
     end
 
+    # Try to mirror the permissions from a file to another
     # @param source [String]
     # @param target [String]
     # @return [Boolean] +true+ if the permissions were successfully mirrored
     def mirror_perms(source, target)
+      return mirror_perms_symlink(source, target) if File.symlink? source
+      mode = File.new(source).stat.mode
+      File.chmod(mode, target)
+      true
+    end
+
+    # Try to mirror the permissions from a symlink to another. Use
+    # +mirror_perms+ if you're not sure if +source+ is a symlink.
+    # @param source [String]
+    # @param target [String]
+    # @return [Boolean] +true+ if the permissions were successfully mirrored
+    def mirror_perms_symlink(source, target)
       mode = File.new(source).lstat.mode
       File.lchmod(mode, target)
       true
