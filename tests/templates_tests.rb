@@ -49,7 +49,7 @@ class YopTemplatesTests < YopTestCase
     assert_nothing_raised { t.apply dest }
 
     assert_directory dest
-    assert_equal [], ls_ar(dest)
+    assert_equal [], ls_Ra(dest)
   end
 
   def test_apply_empty_template_on_existing_dir
@@ -58,7 +58,7 @@ class YopTemplatesTests < YopTestCase
     mkdir_p "tmp/test-foo"
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_equal [], ls_ar(dest)
+    assert_equal [], ls_Ra(dest)
   end
 
   def test_apply_empty_template_ignore_temporary_files
@@ -71,7 +71,7 @@ class YopTemplatesTests < YopTestCase
     mkdir_p "tmp/test-foo"
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_equal [], ls_ar(dest)
+    assert_equal [], ls_Ra(dest)
   end
 
   def test_apply_empty_template_ignore_git_dir
@@ -80,7 +80,7 @@ class YopTemplatesTests < YopTestCase
     mkdir_p "tmp/test-foo"
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_equal [], ls_ar(dest)
+    assert_equal [], ls_Ra(dest)
   end
 
   def test_apply_dirs_only

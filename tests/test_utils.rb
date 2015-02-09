@@ -53,8 +53,8 @@ class YopTestCase < Test::Unit::TestCase
     assert_false File.directory?(path)
   end
 
-  # ls -ar
-  def ls_ar path
+  # ls -R -a
+  def ls_Ra path
     Dir["#{path}/**/*", "#{path}/**/.*"].reject do |d|
       # reject . & .. (for Ruby 1.9)
       d =~ %r(/\.\.?$) && File.directory?(d)
