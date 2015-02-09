@@ -128,7 +128,7 @@ module Yop
       slashes = source.count "/"
 
       repl = replace_vars_in_string(source)
-      if repl.count("/") != slashes or repl =~ %r((?:/|^)\.\.?(?:/|$))
+      if repl.count("/") != slashes || repl =~ %r{(?:/|^)\.\.?(?:/|$)}
         fail BadTemplateVariableValue, repl
       end
       repl
