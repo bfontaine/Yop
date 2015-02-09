@@ -119,20 +119,11 @@ module Yop
       end
     end
 
-    # Same as +replace_vars_in_string+ but ensure the new path doesn't contain
-    # parts like +/../+ or +/./+ nor is deeper than the previous one (i.e. that
-    # the variable replacement doesn't add more directory levels).
+    # Same as +replace_vars_in_string+ but might be modified in the future to
+    # perform some specific path checks.
     # @param source [String]
     # @return [String]
-    def replace_vars_in_path(source)
-      slashes = source.count "/"
-
-      repl = replace_vars_in_string(source)
-      if repl.count("/") != slashes || repl =~ %r{(?:/|^)\.\.?(?:/|$)}
-        fail BadTemplateVariableValue, repl
-      end
-      repl
-    end
+    alias_method :replace_vars_in_path, :replace_vars_in_string
 
     # @param name [String]
     def get_var(name)
