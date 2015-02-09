@@ -67,7 +67,9 @@ module Yop
           source = "#{@base}/#{path}"
           path = replace_vars_in_path path
 
-          if File.directory? source
+          if File.symlink? source
+            copy_entry source, path
+          elsif File.directory? source
             mkdir_p path
           elsif File.file? source
             File.open(path, "w") do |f|
@@ -75,8 +77,7 @@ module Yop
               f.write(content)
             end
           else
-            # fallback on cp
-            cp source, path
+            fail UnsupportedFileType, source
           end
           mirror_perms source, path
         end

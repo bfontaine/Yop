@@ -11,3 +11,6 @@ class UndefinedTemplateVariable < YopException; end
 
 # Raised when a template variable has a wrong value
 class BadTemplateVariableValue < YopException; end
+
+# Raised when a template contains an unsupported file type
+class UnsupportedFileType < YopException; end
