@@ -18,14 +18,14 @@ class YopHomeTests < YopTestCase
   # == #init == #
 
   def test_init_create_dir
-    assert_false File.directory?(@basepath)
+    assert_not_directory @basepath
     Yop.init
-    assert_true File.directory?(@basepath)
+    assert_directory @basepath
   end
 
   def test_init_create_template_dir
     Yop.init
-    assert_true File.directory?("#{@basepath}/templates")
+    assert_directory "#{@basepath}/templates"
   end
 
   def test_init_create_config_file

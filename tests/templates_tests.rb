@@ -48,7 +48,7 @@ class YopTemplatesTests < YopTestCase
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
 
-    assert_true File.directory?(dest)
+    assert_directory dest
     assert_equal [], ls_ar(dest)
   end
 
@@ -89,7 +89,7 @@ class YopTemplatesTests < YopTestCase
     mkdir_p "tmp/test-foo"
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_true File.directory?("#{dest}/bar")
+    assert_directory "#{dest}/bar"
   end
 
   def test_apply_dirs_with_empty_file
@@ -99,7 +99,7 @@ class YopTemplatesTests < YopTestCase
     mkdir_p "tmp/test-foo"
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_true File.directory?("#{dest}/bar")
+    assert_directory "#{dest}/bar"
     assert_true File.file?("#{dest}/barqux")
   end
 
@@ -114,14 +114,13 @@ class YopTemplatesTests < YopTestCase
     mkdir_p "tmp/test-foo"
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_true File.directory?("#{dest}/a")
+    assert_directory "#{dest}/a"
     assert_true File.symlink?("#{dest}/b")
   end
 
   def test_apply_fifo
     mkdir_p "templates/foo"
-    system "mkfifo", "#{Yop.home}/templates/foo/pipe"
-    assert_true $?.success?
+    mkfifo "templates/foo/pipe"
     t = Yop.get_template("foo")
     mkdir_p "tmp/test-foo"
     dest = "#{Yop.home}/tmp/test-foo"
@@ -136,8 +135,8 @@ class YopTemplatesTests < YopTestCase
     t["SOME_VAR"] = "barqux"
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_true File.directory?("#{dest}/barqux")
-    assert_false File.directory?("#{dest}/{(SOME_VAR)}")
+    assert_directory "#{dest}/barqux"
+    assert_not_directory "#{dest}/{(SOME_VAR)}"
   end
 
   def test_apply_dir_with_variable_placeholder_symbol
@@ -146,8 +145,8 @@ class YopTemplatesTests < YopTestCase
     t[:SOME_VAR] = "barqux"
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_true File.directory?("#{dest}/barqux")
-    assert_false File.directory?("#{dest}/{(SOME_VAR)}")
+    assert_directory "#{dest}/barqux"
+    assert_not_directory "#{dest}/{(SOME_VAR)}"
   end
 
   def test_apply_dir_with_variable_placeholder_symbol_from_config
@@ -159,9 +158,9 @@ class YopTemplatesTests < YopTestCase
     t = Yop.get_template("foo")
     dest = "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
-    assert_true File.directory?("#{dest}/barqux")
-    assert_false File.directory?("#{dest}/not-barqux")
-    assert_false File.directory?("#{dest}/{(SOME_VAR)}")
+    assert_directory "#{dest}/barqux"
+    assert_not_directory "#{dest}/not-barqux"
+    assert_not_directory "#{dest}/{(SOME_VAR)}"
   end
 
   # placeholders in files

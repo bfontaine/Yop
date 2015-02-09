@@ -45,6 +45,14 @@ class YopTestCase < Test::Unit::TestCase
     $stdout.read
   end
 
+  def assert_directory path
+    assert_true File.directory?(path)
+  end
+
+  def assert_not_directory path
+    assert_false File.directory?(path)
+  end
+
   # ls -ar
   def ls_ar path
     Dir["#{path}/**/*", "#{path}/**/.*"].reject do |d|
@@ -58,5 +66,15 @@ class YopTestCase < Test::Unit::TestCase
     define_method(name) do |path|
       FileUtils.send(name, "#{@basepath}/#{path}")
     end
+  end
+
+  def mkfifo path
+    system "mkfifo", "#{@basepath}/#{path}"
+  end
+
+  def system(*args)
+    ret = Kernel.system(*args)
+    assert_true $?.success?
+    ret
   end
 end
