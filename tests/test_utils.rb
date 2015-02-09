@@ -15,6 +15,8 @@ class YopTestCase < Test::Unit::TestCase
     @_stdin = $stdin
     @_stdout = $stdout
     @_stderr = $stderr
+
+    @pwd = Dir.pwd
   end
 
   def teardown
@@ -24,6 +26,8 @@ class YopTestCase < Test::Unit::TestCase
     $stdin = @_stdin
     $stdout = @_stdout
     $stderr = @_stderr
+
+    FileUtils.cd @pwd
   end
 
   def capture_output!

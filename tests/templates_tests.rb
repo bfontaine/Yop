@@ -103,6 +103,19 @@ class YopTemplatesTests < YopTestCase
     assert_true File.file?("#{dest}/barqux")
   end
 
+  def test_apply_symlink
+    mkdir_p "templates/foo/a"
+    FileUtils.cd Yop.home do
+      FileUtils.ln_s "a", "templates/foo/b"
+    end
+    t = Yop.get_template("foo")
+    mkdir_p "tmp/test-foo"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_true File.directory?("#{dest}/a")
+    assert_true File.symlink?("#{dest}/b")
+  end
+
   def test_apply_dir_with_variable_placeholder_string
     mkdir_p "templates/foo/{(SOME_VAR)}"
     t = Yop.get_template("foo")
