@@ -218,4 +218,19 @@ EOS
     assert_true File.file?("#{dest}/README")
     assert_equal expected, File.read("#{dest}/README")
   end
+
+  # UI variables
+
+  def test_apply_dir_with_var_in_path_values_from_terminal
+    capture_output!
+    set_input "barqux"
+    mkdir_p "templates/foo/{(SOME_VAR)}"
+    t = Yop.get_template("foo")
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_directory "#{dest}/barqux"
+    assert_not_directory "#{dest}/{(SOME_VAR)}"
+    assert_include read_output, "SOME_VAR"
+  end
+
 end
