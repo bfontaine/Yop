@@ -141,9 +141,13 @@ module Yop
 
     # @param source [String]
     # @param target [String]
+    # @return [Boolean] +true+ if the permissions were successfully mirrored
     def mirror_perms(source, target)
       mode = File.new(source).lstat.mode
       File.lchmod(mode, target)
+      true
+    rescue NotImplementedError
+      false
     end
   end
 end
