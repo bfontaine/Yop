@@ -103,6 +103,8 @@ class YopTemplatesTests < YopTestCase
     assert_true File.file?("#{dest}/barqux")
   end
 
+  # special files
+
   def test_apply_symlink
     mkdir_p "templates/foo/a"
     FileUtils.cd Yop.home do
@@ -115,6 +117,18 @@ class YopTemplatesTests < YopTestCase
     assert_true File.directory?("#{dest}/a")
     assert_true File.symlink?("#{dest}/b")
   end
+
+  def test_apply_fifo
+    mkdir_p "templates/foo"
+    system "mkfifo", "#{Yop.home}/templates/foo/pipe"
+    assert_true $?.success?
+    t = Yop.get_template("foo")
+    mkdir_p "tmp/test-foo"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_raise(UnsupportedFileType) { t.apply dest }
+  end
+
+  # placeholders in paths
 
   def test_apply_dir_with_variable_placeholder_string
     mkdir_p "templates/foo/{(SOME_VAR)}"
@@ -148,5 +162,32 @@ class YopTemplatesTests < YopTestCase
     assert_true File.directory?("#{dest}/barqux")
     assert_false File.directory?("#{dest}/not-barqux")
     assert_false File.directory?("#{dest}/{(SOME_VAR)}")
+  end
+
+  # placeholders in files
+
+  def test_apply_file_with_variable_placeholders_in_content
+    mkdir_p "templates/foo"
+    name = "afoo"
+    author = "abar"
+    File.open("#{Yop.home}/templates/foo/README", "w") do |f|
+      f.write <<-EOS
+# {(NAME)}
+
+This is the project {(NAME)} by {(AUTHOR)}.
+EOS
+    end
+    t = Yop.get_template("foo")
+    t["NAME"] = name
+    t["AUTHOR"] = author
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    expected = <<-EOS
+# #{name}
+
+This is the project #{name} by #{author}.
+EOS
+    assert_true File.file?("#{dest}/README")
+    assert_equal expected, File.read("#{dest}/README")
   end
 end
