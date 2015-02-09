@@ -107,8 +107,8 @@ class YopTemplatesTests < YopTestCase
 
   def test_apply_symlink
     mkdir_p "templates/foo/a"
-    FileUtils.cd Yop.home do
-      FileUtils.ln_s "a", "templates/foo/b"
+    FileUtils.cd "#{Yop.home}/templates/foo" do
+      FileUtils.ln_s "a", "b"
     end
     t = Yop.get_template("foo")
     mkdir_p "tmp/test-foo"
@@ -126,6 +126,35 @@ class YopTemplatesTests < YopTestCase
     dest = "#{Yop.home}/tmp/test-foo"
     assert_raise(UnsupportedFileType) { t.apply dest }
   end
+
+  # permissions
+
+  def test_apply_executable_file
+    mkdir_p "templates/foo"
+    touch "templates/foo/exe"
+    chmod 0744, "templates/foo/exe"
+    assert_equal 0100744, File.new("#{Yop.home}/templates/foo/exe").stat.mode
+    t = Yop.get_template("foo")
+    mkdir_p "tmp/test-foo"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_equal 0100744, File.new("#{dest}/exe").stat.mode
+  end
+
+  def test_apply_symlink_dont_fail_if_cannot_set_permissions
+    unimplement_lchmod!
+    mkdir_p "templates/foo"
+    touch "templates/foo/a"
+    FileUtils.cd "#{Yop.home}/templates/foo" do
+      FileUtils.ln_s "a", "b"
+    end
+    t = Yop.get_template("foo")
+    mkdir_p "tmp/test-foo"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+  end
+
+  # TODO test dir permissions
 
   # placeholders in paths
 
@@ -189,6 +218,4 @@ EOS
     assert_true File.file?("#{dest}/README")
     assert_equal expected, File.read("#{dest}/README")
   end
-
-  # TODO test {symlink, dir, file} permissions
 end

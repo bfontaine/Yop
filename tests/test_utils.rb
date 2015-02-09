@@ -17,6 +17,8 @@ class YopTestCase < Test::Unit::TestCase
     @_stderr = $stderr
 
     @pwd = Dir.pwd
+
+    @_lchmod = File.public_method(:lchmod)
   end
 
   def teardown
@@ -28,6 +30,8 @@ class YopTestCase < Test::Unit::TestCase
     $stderr = @_stderr
 
     FileUtils.cd @pwd
+
+    File.define_singleton_method :lchmod, @_lchmod
   end
 
   def capture_output!
@@ -43,6 +47,11 @@ class YopTestCase < Test::Unit::TestCase
   def read_output
     $stdout.rewind
     $stdout.read
+  end
+
+  # some systems don't implement File.lchmod
+  def unimplement_lchmod!
+    File.define_singleton_method(:lchmod) { |*_| fail NotImplementedError }
   end
 
   def assert_directory path
@@ -70,6 +79,10 @@ class YopTestCase < Test::Unit::TestCase
 
   def mkfifo path
     system "mkfifo", "#{@basepath}/#{path}"
+  end
+
+  def chmod(mode, path)
+    FileUtils.chmod mode, "#{@basepath}/#{path}"
   end
 
   def system(*args)
