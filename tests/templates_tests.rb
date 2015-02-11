@@ -154,6 +154,21 @@ class YopTemplatesTests < YopTestCase
     assert_nothing_raised { t.apply dest }
   end
 
+  def test_apply_symlink_set_permissions_if_possible
+    implement_lchmod!
+    mkdir_p "templates/foo"
+    touch "templates/foo/a"
+    FileUtils.cd "#{Yop.home}/templates/foo" do
+      FileUtils.ln_s "a", "b"
+    end
+    t = Yop.get_template("foo")
+    mkdir_p "tmp/test-foo"
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_equal 2, @lchmod_args.length
+    assert_equal "b", @lchmod_args[-1]
+  end
+
   # TODO test dir permissions
 
   # placeholders in paths

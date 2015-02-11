@@ -19,6 +19,7 @@ class YopTestCase < Test::Unit::TestCase
     @pwd = Dir.pwd
 
     @_lchmod = File.public_method(:lchmod)
+    @lchmod_args = nil
   end
 
   def teardown
@@ -52,6 +53,15 @@ class YopTestCase < Test::Unit::TestCase
   # some systems don't implement File.lchmod
   def unimplement_lchmod!
     File.define_singleton_method(:lchmod) { |*_| fail NotImplementedError }
+  end
+
+  def implement_lchmod!
+    s = self
+    File.define_singleton_method(:lchmod) { |*args| s.set_lchmod_args args }
+  end
+
+  def set_lchmod_args args
+    @lchmod_args = args
   end
 
   def assert_directory path
