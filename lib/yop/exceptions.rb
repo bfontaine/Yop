@@ -9,6 +9,9 @@ class NonExistentTemplate < YopException; end
 # Raised when a template variable is undefined
 class UndefinedTemplateVariable < YopException; end
 
+# Raised when a dynamic template variable is undefined
+class UndefinedDynamicTemplateVariable < UndefinedTemplateVariable; end
+
 # Raised when a template variable has a wrong value
 class BadTemplateVariableValue < YopException; end
 

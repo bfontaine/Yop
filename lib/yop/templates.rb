@@ -34,6 +34,9 @@ module Yop
     # @return [Yop::UI]
     attr_writer :ui
 
+    # The prefix used for dynamic variables
+    DYNAMIC_PREFIX = Regexp.escape "!"
+
     # Create a new template from a base directory
     # @param base_directory [String] a path to an existing directory which will
     #        be used as a source when this template will be applied
@@ -105,6 +108,10 @@ module Yop
         [/\.git/, /.~$/, /__pycache__/].any? { |reg| path =~ reg }
     end
 
+    def dynamic_var?(name)
+      name && name =~ /^#{DYNAMIC_PREFIX}/
+    end
+
     # Replace vars in a file
     # @param source [String] the file path
     def replace_vars(source)
@@ -116,7 +123,12 @@ module Yop
     def replace_vars_in_string(text)
       text.gsub(@var_pattern) do
         name = Regexp.last_match[1]
-        @vars[name] || @vars[name.to_sym] || get_var(name)
+
+        if dynamic_var? name
+          get_dynamic_var name
+        else
+          @vars[name] || @vars[name.to_sym] || get_var(name)
+        end
       end
     end
 
@@ -131,12 +143,24 @@ module Yop
       @vars[name] = (@ui ||= Yop::TerminalUI.new).get_var(name)
     end
 
+    # Return a value for a dynamic variable.
+    # @param name [String]
+    def get_dynamic_var(name)
+      case name[DYNAMIC_PREFIX.size..-1]
+      # {(!CURRENT_YEAR)} -> the current year (four digits)
+      when "CURRENT_YEAR"
+        Time.now.year.to_s
+      else
+        fail UndefinedDynamicTemplateVariable, name
+      end
+    end
+
     # Initialize @var_pattern
     def compile_var_pattern!
       opening = Regexp.escape(@config[:before_var] || "{(")
       closing = Regexp.escape(@config[:after_var] || ")}")
 
-      @var_pattern = /#{opening}([_A-Z][_A-Z0-9]*)#{closing}/
+      @var_pattern = /#{opening}(#{DYNAMIC_PREFIX}?[_A-Z][_A-Z0-9]*)#{closing}/
     end
 
     # Try to mirror the permissions from a file to another

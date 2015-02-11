@@ -207,6 +207,28 @@ class YopTemplatesTests < YopTestCase
     assert_not_directory "#{dest}/{(SOME_VAR)}"
   end
 
+  def test_apply_dir_with_dynamic_variable_placeholder
+    capture_output!
+    set_input "v1"
+
+    year = Time.now.year.to_s
+    mkdir_p "templates/foo/{(!CURRENT_YEAR)}"
+    Yop.config! :vars => {:CURRENT_YEAR => "v2"}
+    t = Yop.get_template("foo")
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_directory "#{dest}/#{year}"
+    assert_not_directory "#{dest}/v1"
+    assert_not_directory "#{dest}/v2"
+  end
+
+  def test_apply_dir_with_undefined_dynamic_variable_placeholder
+    mkdir_p "templates/foo/{(!SOME_VAR)}"
+    t = Yop.get_template("foo")
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_raise(UndefinedDynamicTemplateVariable) { t.apply dest }
+  end
+
   # placeholders in files
 
   def test_apply_file_with_variable_placeholders_in_content
@@ -232,6 +254,19 @@ This is the project #{name} by #{author}.
 EOS
     assert_true File.file?("#{dest}/README")
     assert_equal expected, File.read("#{dest}/README")
+  end
+
+  def test_apply_file_with_dynamic_variable_placeholders_in_content
+    mkdir_p "templates/foo"
+    File.open("#{Yop.home}/templates/foo/LICENSE", "w") do |f|
+      f.write "(c) {(!CURRENT_YEAR)} Someone"
+    end
+    t = Yop.get_template("foo")
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    expected = "(c) #{Time.now.year} Someone"
+    assert_true File.file?("#{dest}/LICENSE")
+    assert_equal expected, File.read("#{dest}/LICENSE")
   end
 
   # UI variables
