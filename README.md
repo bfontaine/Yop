@@ -13,7 +13,8 @@ Note: this is an early release.
 
 1. Template directories: ✓ (0.0.1)
 2. Placeholder variables: ✓ (0.0.2)
-3. Dynamic variables (e.g. the current year)
+3. Dynamic variables ✓ (upcoming version)
+4. Filters (e.g. lowercase, etc)
 
 ## Install
 
@@ -109,3 +110,8 @@ You can pre-populate fixed variables like your name or your email in
 
 Variables can be either strings or symbols. They must be upper-cased and start
 with a letter. They can contain numbers and underscores.
+
+Some dynamic variables can be provided by Yop. For now, it only includes the
+current year. Dynamic variables start with a `!`.
+
+* `{(!CURRENT_YEAR)}` gives `2015` (if the current year is 2015)
