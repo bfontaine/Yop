@@ -12,7 +12,7 @@ Note: this is an early release.
 ## Roadmap
 
 1. Template directories: ✓ (0.0.1)
-2. Placeholder variables: ✓ (upcoming version)
+2. Placeholder variables: ✓ (0.0.2)
 3. Dynamic variables (e.g. the current year)
 
 ## Install

@@ -1,5 +1,9 @@
 #  Yop Changelog
 
+## v0.0.2 (Feb 11, 2015)
+
+* Placeholder variables
+* Basic symlinks support
 
 ## v0.0.1
 
