@@ -6,6 +6,7 @@ require_relative "home"
 require_relative "config"
 require_relative "exceptions"
 require_relative "ui"
+require_relative "extend/file"
 
 module Yop
   class << self
@@ -70,7 +71,7 @@ module Yop
           source = "#{@base}/#{path}"
           path = replace_vars_in_path path
 
-          if File.symlink? source
+          if File.symlink?(source) || File.binary?(source)
             copy_entry source, path
           elsif File.directory? source
             mkdir_p path

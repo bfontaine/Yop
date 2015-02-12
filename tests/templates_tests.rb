@@ -3,6 +3,7 @@
 require "yop/templates"
 require "yop/exceptions"
 require_relative "test_utils"
+require_relative "test_assets"
 
 class YopTemplatesTests < YopTestCase
   def setup
@@ -227,6 +228,17 @@ class YopTemplatesTests < YopTestCase
     t = Yop.get_template("foo")
     dest = "#{Yop.home}/tmp/test-foo"
     assert_raise(UndefinedDynamicTemplateVariable) { t.apply dest }
+  end
+
+  def test_apply_dir_with_binary_file
+    mkdir_p "templates/foo"
+    FileUtils.cd @basepath do
+      File.binwrite("templates/foo/archive.tgz", TGZ_CONTENT)
+    end
+    t = Yop.get_template("foo")
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_true File.exist? "#{dest}/archive.tgz"
   end
 
   # placeholders in files
