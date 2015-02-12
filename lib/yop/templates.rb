@@ -117,9 +117,6 @@ module Yop
     # @param source [String] the file path
     def replace_vars(source)
       replace_vars_in_string File.read(source)
-    rescue
-      puts "Error in #{source}"
-      raise
     end
 
     # Replace vars in a string
@@ -140,12 +137,7 @@ module Yop
     # perform some specific path checks.
     # @param source [String]
     # @return [String]
-    def replace_vars_in_path(path)
-      replace_vars_in_string path
-    rescue
-      puts "Error in #{path}"
-      raise
-    end
+    alias_method :replace_vars_in_path, :replace_vars_in_string
 
     # @param name [String]
     def get_var(name)
