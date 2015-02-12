@@ -14,10 +14,11 @@ Note: this is an early release.
 1. Template directories: ✓ (0.0.1)
 2. Placeholder variables: ✓ (0.0.2)
 3. Dynamic variables ✓ (0.0.3)
-4. Filters (e.g. lowercase, default value, etc)
-5. Per-template config files
-6. Commands to remove or create an empty template
-7. Download templates from external sources (zips, git repos, etc)
+4. Security checks (e.g. don't write files outside of directory, -i option, etc)
+5. Filters (e.g. lowercase, default value, etc)
+6. Per-template config files
+7. Commands to remove or create an empty template
+8. Download templates from external sources (zips, git repos, etc)
 
 ## Install
 
