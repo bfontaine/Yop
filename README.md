@@ -11,8 +11,8 @@ Note: this is an early release.
 
 ## Roadmap
 
-1. Template directories: ✓ (0.0.1)
-2. Placeholder variables: ✓ (0.0.2)
+1. Template directories ✓ (0.0.1)
+2. Placeholder variables ✓ (0.0.2)
 3. Dynamic variables ✓ (0.0.3)
 4. Security checks (e.g. don't write files outside of directory, -i option, etc)
 5. Filters (e.g. lowercase, default value, etc)
