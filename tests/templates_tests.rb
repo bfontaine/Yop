@@ -36,7 +36,6 @@ class YopTemplatesTests < YopTestCase
 
   def test_get_template_object
     mkdir "templates/foo"
-
     assert_instance_of Yop::Template, Yop.get_template("foo")
   end
 
@@ -56,8 +55,7 @@ class YopTemplatesTests < YopTestCase
   def test_apply_empty_template_on_existing_dir
     mkdir "templates/foo"
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
     assert_equal [], ls_Ra(dest)
   end
@@ -69,17 +67,7 @@ class YopTemplatesTests < YopTestCase
     touch "#{root}/.bar.swp"
     touch "#{root}/.qux.swo"
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
-    assert_nothing_raised { t.apply dest }
-    assert_equal [], ls_Ra(dest)
-  end
-
-  def test_apply_empty_template_ignore_git_dir
-    mkdir_p "templates/foo/.git"
-    t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
     assert_equal [], ls_Ra(dest)
   end
@@ -87,8 +75,7 @@ class YopTemplatesTests < YopTestCase
   def test_apply_dirs_only
     mkdir_p "templates/foo/bar"
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
     assert_directory "#{dest}/bar"
   end
@@ -97,11 +84,29 @@ class YopTemplatesTests < YopTestCase
     mkdir_p "templates/foo/bar"
     touch "templates/foo/barqux"
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
     assert_directory "#{dest}/bar"
     assert_true File.file?("#{dest}/barqux")
+  end
+
+  # specific files/directories
+
+  def test_apply_empty_template_ignore_git_dir
+    mkdir_p "templates/foo/.git"
+    t = Yop.get_template("foo")
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_equal [], ls_Ra(dest)
+  end
+
+  def test_apply_dirs_with_gitignore
+    mkdir_p "templates/foo/bar"
+    touch "templates/foo/.gitignore"
+    t = Yop.get_template("foo")
+    dest = "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_true File.file?("#{dest}/.gitignore")
   end
 
   # special files
@@ -112,8 +117,7 @@ class YopTemplatesTests < YopTestCase
       FileUtils.ln_s "a", "b"
     end
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
     assert_directory "#{dest}/a"
     assert_true File.symlink?("#{dest}/b")
@@ -123,8 +127,7 @@ class YopTemplatesTests < YopTestCase
     mkdir_p "templates/foo"
     mkfifo "templates/foo/pipe"
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
     assert_raise(UnsupportedFileType) { t.apply dest }
   end
 
@@ -136,8 +139,7 @@ class YopTemplatesTests < YopTestCase
     chmod 0744, "templates/foo/exe"
     assert_equal 0100744, File.new("#{Yop.home}/templates/foo/exe").stat.mode
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
     assert_nothing_raised { t.apply dest }
     assert_equal 0100744, File.new("#{dest}/exe").stat.mode
   end
@@ -150,9 +152,7 @@ class YopTemplatesTests < YopTestCase
       FileUtils.ln_s "a", "b"
     end
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
-    assert_nothing_raised { t.apply dest }
+    assert_nothing_raised { t.apply "#{Yop.home}/tmp/test-foo" }
   end
 
   def test_apply_symlink_set_permissions_if_possible
@@ -163,9 +163,7 @@ class YopTemplatesTests < YopTestCase
       FileUtils.ln_s "a", "b"
     end
     t = Yop.get_template("foo")
-    mkdir_p "tmp/test-foo"
-    dest = "#{Yop.home}/tmp/test-foo"
-    assert_nothing_raised { t.apply dest }
+    assert_nothing_raised { t.apply "#{Yop.home}/tmp/test-foo" }
     assert_equal 2, @lchmod_args.length
     assert_equal "b", @lchmod_args[-1]
   end

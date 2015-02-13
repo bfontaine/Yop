@@ -83,7 +83,9 @@ class YopTestCase < Test::Unit::TestCase
   # proxy FileUtils methods by prepending a @basepath
   [:mkdir, :mkdir_p, :touch].each do |name|
     define_method(name) do |path|
-      FileUtils.send(name, "#{@basepath}/#{path}")
+      fullpath = path.start_with?("/") ? path : "#{@basepath}/#{path}"
+      FileUtils.send(name, fullpath)
+      path
     end
   end
 
