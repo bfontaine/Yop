@@ -168,7 +168,15 @@ class YopTemplatesTests < YopTestCase
     assert_equal "b", @lchmod_args[-1]
   end
 
-  # TODO test dir permissions
+  def test_apply_empty_dir_permissions
+    mkdir_p "templates/foo/bar"
+    chmod 0741, "templates/foo/bar"
+    assert_equal 040741, File.new("#{Yop.home}/templates/foo/bar").stat.mode
+    t = Yop.get_template("foo")
+    dest = mkdir_p "#{Yop.home}/tmp/test-foo"
+    assert_nothing_raised { t.apply dest }
+    assert_equal 040741, File.new("#{dest}/bar").stat.mode
+  end
 
   # placeholders in paths
 
