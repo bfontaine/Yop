@@ -106,7 +106,7 @@ module Yop
     # @param path [String]
     def skip?(path)
       ignore_extension?(path) ||
-        [/\.git/, /.~$/, /__pycache__/].any? { |reg| path =~ reg }
+        [/^\.git$/, /.~$/, /__pycache__/].any? { |reg| path =~ reg }
     end
 
     def dynamic_var?(name)
