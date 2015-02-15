@@ -4,6 +4,7 @@ require "fileutils"
 require "tmpdir"
 
 require "yop/extend/file"
+require_relative "test_utils"
 require_relative "test_assets"
 
 FU = FileUtils
