@@ -20,11 +20,11 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "trollop",  "~> 2.1"
 
-  s.add_development_dependency "simplecov", "~> 0.7"
-  s.add_development_dependency "rake",      "~> 10.1"
-  s.add_development_dependency "test-unit", "~> 2.5"
+  s.add_development_dependency "simplecov", "~> 0.15"
+  s.add_development_dependency "rake",      "~> 12.3"
+  s.add_development_dependency "test-unit", "~> 3.2"
   s.add_development_dependency "fakeweb",   "~> 1.3"
   s.add_development_dependency "coveralls", "~> 0.7"
-  s.add_development_dependency "rubocop",   "~> 0.28"
+  s.add_development_dependency "rubocop",   "~> 0.52"
   s.add_development_dependency "rubygems-tasks", "~> 0.2.4"
 end
